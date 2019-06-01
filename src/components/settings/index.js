@@ -1,7 +1,8 @@
 import React from 'react';
 import './settings.css';
+import { snapToGrid } from '../../utils';
 
-function Settings({ autoSave, toggleAutoSave, saveState, resetState }) {
+function Settings({ autoSave, toggleAutoSave, snapToGrid, toggleSnapToGrid, saveState, resetState }) {
     return (
         <div className="settings-bar">
 
@@ -16,6 +17,10 @@ function Settings({ autoSave, toggleAutoSave, saveState, resetState }) {
             <div className="checkbox">
                 <input id="autoSave" type="checkbox" checked={autoSave} onChange={toggleAutoSave} />
                 <label htmlFor="autoSave">Auto Save</label>
+            </div>
+            <div className="checkbox">
+                <input id="snapToGrid" type="checkbox" checked={snapToGrid} onChange={toggleSnapToGrid} />
+                <label htmlFor="snapToGrid">Snap to Grid</label>
             </div>
 
 

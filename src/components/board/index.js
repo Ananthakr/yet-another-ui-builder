@@ -2,6 +2,7 @@ import React from 'react';
 import './board.css';
 import { DropTarget } from 'react-dnd'
 import { ElementTypes } from '../../constants';
+import { snapToGrid } from '../../utils';
 
 
 function Board({ dropTarget, isOver, children }) {
@@ -16,10 +17,11 @@ function Board({ dropTarget, isOver, children }) {
 const boardTarget = {
     drop(props, monitor, component) {
         const item = monitor.getItem();
-        const clientOffset = monitor.getClientOffset();
-        const position = [clientOffset.x, clientOffset.y];
+        const clientOffset = monitor.getSourceClientOffset();
+
+        const position = props.snapToGrid ? snapToGrid(clientOffset.x, clientOffset.y) : [clientOffset.x, clientOffset.y];
         const type = item.type;
-        console.log("dropped",item)
+
         if (item.isNew) {
             props.addElement({ position, type });
         } else {

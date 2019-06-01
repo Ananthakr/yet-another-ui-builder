@@ -12,7 +12,8 @@ import { throwError } from 'rxjs';
 // Setup state
 const INITIAL_STATE = {
   elements: [],
-  autoSave: false
+  autoSave: false,
+  snapToGrid:false
 }
 export const StateContext = React.createContext(INITIAL_STATE);
 
@@ -54,6 +55,14 @@ function App() {
     setState({
       ...state,
       autoSave: !state.autoSave
+    })
+  }
+
+  const toggleSnapToGrid = () => {
+    console.log("Toggling snap to grid");
+    setState({
+      ...state,
+      snapToGrid: !state.snapToGrid
     })
   }
 
@@ -121,7 +130,7 @@ function App() {
 
   return (
     <div className="app">
-      <Settings resetState={resetState} saveState={saveState} autoSave={state.autoSave} toggleAutoSave={toggleAutoSave} />
+      <Settings resetState={resetState} saveState={saveState} autoSave={state.autoSave} toggleAutoSave={toggleAutoSave} snapToGrid={state.snapToGrid} toggleSnapToGrid={toggleSnapToGrid} />
       <div className="container">
         <StateContext.Provider value={{ ...state }}>
           <DragAndDropContextProvider isTouch={isTouchScreen()}>

@@ -22,5 +22,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Issues
 - [x] Touch support
-- [ ] Positioning
+- [x] Positioning
+- [x] Fix snap to grid
 - [ ] Try with Canvas element 
