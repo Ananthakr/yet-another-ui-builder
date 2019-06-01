@@ -11,3 +11,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Make the positions static and absolute
 * Make mobile responsive
 * Save postion and elements data
+* Create picker view which provides elements to be dragged down
+* Complete flow for one element
+
+
+
+## Issues
+- [x] Touch support
+- [] Positioning 
