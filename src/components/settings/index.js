@@ -1,6 +1,5 @@
 import React from 'react';
 import './settings.css';
-import { snapToGrid } from '../../utils';
 
 function Settings({ autoSave, toggleAutoSave, snapToGrid, toggleSnapToGrid, saveState, resetState }) {
     return (
