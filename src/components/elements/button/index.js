@@ -5,7 +5,7 @@ import { ElementTypes } from '../../../constants'
 
 function Button({ isDragging, dragSource, position = [0, 0], id, isNew }) {
   return dragSource(
-    <div className={isNew ? "" : "bounding-box"} style={{ position: isNew ? "relative" : "absolute", left: position[0], top: position[1] }}>
+    <div className={isNew ? "" : "bounding-box"} style={{ position: isNew ? "relative" : "absolute", left: position[0], top: position[1], display: isDragging? "none": "block" }}>
       <button className={isDragging ? "button is-dragging" : "button"}>
         Button
       </button>
