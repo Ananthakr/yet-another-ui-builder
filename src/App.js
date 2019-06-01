@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend'
 import './App.css';
 import Board from './components/board';
 import Elements from './components/elements';
+import Settings from './components/settings';
+import { isTouchScreen } from './utils';
 
 // Setup state
 const INITIAL_STATE = {
   elements: [
     {
       id: 0,
-      position: [0, 0]
+      position: [200, 200]
     },
     {
       id: 1,
-      position: [0, 0]
+      position: [200, 200]
     },
     {
       id: 2,
-      position: [0, 0]
+      position: [200, 200]
     }
   ]
 }
@@ -33,9 +36,21 @@ function App() {
 
   // Save Data on change
   useEffect(() => {
-
-    localStorage.setItem('appState', JSON.stringify(state));
+    saveState();
   })
+
+  const resetState = () => {
+    console.log("Resetting state")
+    setState(INITIAL_STATE);
+  }
+
+  const saveState = () => {
+    console.log("Saving state")
+    localStorage.setItem('appState', JSON.stringify(state));
+  }
+
+
+
 
 
   // move dragged element
@@ -67,15 +82,19 @@ function App() {
   }
 
   return (
-    <StateContext.Provider value={{ ...state }}>
-      <DragDropContextProvider backend={HTML5Backend}>
-        <div className="App">
+    <div className="App">
+      <Settings resetState={resetState} saveState={saveState} />
+      <StateContext.Provider value={{ ...state }}>
+        <DragDropContextProvider backend={isTouchScreen() ? TouchBackend : HTML5Backend}>
+
+
           <Board moveElement={moveElement} elementIndex={0}>
             {renderElements()}
           </Board>
-        </div>
-      </DragDropContextProvider>
-    </StateContext.Provider>
+
+        </DragDropContextProvider>
+      </StateContext.Provider>
+    </div>
   );
 }
 

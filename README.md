@@ -9,3 +9,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Make the element draggable in Board
 * Track its postions via state management layer
 * Make the positions static and absolute
+* Make mobile responsive
+* Save postion and elements data

@@ -5,10 +5,10 @@ import { ElementTypes } from '../../../constants'
 
 function Button({ isDragging, dragSource, position, id }) {
   return dragSource(
-    <button className="button"
-      style={{ position: "absolute", left: position[0], top: position[1] }}
+    <button className={isDragging ? "button is-dragging" : "button"}
+      style={{ position: "relative", left: position[0], top: position[1] }}
     >
-      {isDragging ? "Help me!" : "Button"}
+      Button
     </button>,
   );
 }

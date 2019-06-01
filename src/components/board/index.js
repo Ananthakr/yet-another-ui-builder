@@ -18,8 +18,14 @@ const boardTarget = {
         const item = monitor.getItem();
         const elementIndex = item.id;
 
-        const clientOffset = monitor.getClientOffset();
-        const position = [clientOffset.x, clientOffset.y];
+        // const clientOffset = monitor.getClientOffset();
+        // const position = [clientOffset.x, clientOffset.y];
+
+        const delta = monitor.getDifferenceFromInitialOffset();
+        const left = Math.round(item.left + delta.x);
+        const top = Math.round(item.top + delta.y);
+        const position = [left, top];
+
 
         props.moveElement({ position, elementIndex })
     },
