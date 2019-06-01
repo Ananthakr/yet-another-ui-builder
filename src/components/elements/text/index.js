@@ -5,17 +5,17 @@ import { ElementTypes } from '../../../constants'
 
 function Text({ isDragging, dragSource, position = [0, 0], id, isNew }) {
   return dragSource(
-    <p className={isDragging ? "text is-dragging" : "text"}
-      style={{ position: isNew ? "relative" : "absolute", left: position[0], top: position[1] }}
-    >
-      Text
-    </p>,
+    <div className={isNew ? "" : "bounding-box"} style={{ position: isNew ? "relative" : "absolute", left: position[0], top: position[1] }}>
+      <p className={isDragging ? "text is-dragging" : "text"}>
+        Text
+      </p>
+    </div>,
   );
 }
 
 // Setup DND Source
 const elementSource = {
-  beginDrag: props => ({ id: props.id, isNew: props.isNew, type:ElementTypes.TEXT }),
+  beginDrag: props => ({ id: props.id, isNew: props.isNew, type: ElementTypes.TEXT }),
 }
 
 function collect(connect, monitor) {

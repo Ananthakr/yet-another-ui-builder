@@ -6,8 +6,3 @@
 .container{
   width: 100%;
 }
-
-.is-dragging{
-  box-shadow: none;
-  opacity: 0.7;
-}

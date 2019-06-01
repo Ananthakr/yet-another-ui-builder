@@ -14,7 +14,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Create picker view which provides elements to be dragged down
 * Complete flow for one element
 * Add a new elements
+* Randomize ID generation for elements in board
+* Add remove option and bounding box
 * Write tests
+
 
 
 ## Issues
