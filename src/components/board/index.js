@@ -18,18 +18,12 @@ const boardTarget = {
         const item = monitor.getItem();
         const clientOffset = monitor.getClientOffset();
         const position = [clientOffset.x, clientOffset.y];
-
+        const type = item.type;
+        console.log("dropped",item)
         if (item.isNew) {
-            props.addElement({ position });
+            props.addElement({ position, type });
         } else {
-
             const elementIndex = item.id;
-
-            // const delta = monitor.getDifferenceFromInitialOffset();
-            // const left = Math.round(item.left + delta.x);
-            // const top = Math.round(item.top + delta.y);
-            // const position = [left, top];
-
             props.moveElement({ position, elementIndex })
         }
 
@@ -43,4 +37,4 @@ function collect(connect, monitor) {
     }
 }
 
-export default DropTarget(ElementTypes.BUTTON, boardTarget, collect)(Board);
+export default DropTarget(Object.values(ElementTypes), boardTarget, collect)(Board);

@@ -13,9 +13,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Save postion and elements data
 * Create picker view which provides elements to be dragged down
 * Complete flow for one element
-
+* Add a new elements
+* Write tests
 
 
 ## Issues
 - [x] Touch support
-- [ ] Positioning 
+- [ ] Positioning
+- [ ] Try with Canvas element 

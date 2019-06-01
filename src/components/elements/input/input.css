@@ -1,0 +1,11 @@
+.input{
+    padding: 1rem 2rem;
+    border-color: #444444;
+    border-width:2px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: #f2f2f2;
+    color: #222222;
+    cursor:move;
+}
+

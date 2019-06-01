@@ -14,8 +14,8 @@ function Settings({ autoSave, toggleAutoSave, saveState, resetState }) {
             </button>
             }
             <div className="checkbox">
-                <input id="autoSave" type="checkbox" checked={autoSave} onClick={toggleAutoSave} />
-                <label for="autoSave">Auto Save</label>
+                <input id="autoSave" type="checkbox" checked={autoSave} onChange={toggleAutoSave} />
+                <label htmlFor="autoSave">Auto Save</label>
             </div>
 
 

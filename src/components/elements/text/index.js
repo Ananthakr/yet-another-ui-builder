@@ -1,21 +1,21 @@
 import React from 'react';
-import './button.css';
+import './text.css';
 import { DragSource } from 'react-dnd'
 import { ElementTypes } from '../../../constants'
 
-function Button({ isDragging, dragSource, position = [0, 0], id, isNew }) {
+function Text({ isDragging, dragSource, position = [0, 0], id, isNew }) {
   return dragSource(
-    <button className={isDragging ? "button is-dragging" : "button"}
+    <p className={isDragging ? "text is-dragging" : "text"}
       style={{ position: isNew ? "relative" : "absolute", left: position[0], top: position[1] }}
     >
-      Button
-    </button>,
+      Text
+    </p>,
   );
 }
 
 // Setup DND Source
 const elementSource = {
-  beginDrag: props => ({ id: props.id, isNew: props.isNew, type: ElementTypes.BUTTON }),
+  beginDrag: props => ({ id: props.id, isNew: props.isNew, type:ElementTypes.TEXT }),
 }
 
 function collect(connect, monitor) {
@@ -24,4 +24,4 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging(),
   }
 }
-export default DragSource(ElementTypes.BUTTON, elementSource, collect)(Button)
+export default DragSource(ElementTypes.TEXT, elementSource, collect)(Text)

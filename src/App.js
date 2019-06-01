@@ -6,6 +6,8 @@ import Elements from './components/elements';
 import Settings from './components/settings';
 import Picker from './components/picker';
 import { isTouchScreen } from './utils';
+import { ElementTypes } from './constants';
+import { throwError } from 'rxjs';
 
 // Setup state
 const INITIAL_STATE = {
@@ -35,6 +37,8 @@ function App() {
       saveState();
   })
 
+
+  // Settings
   const resetState = () => {
     console.log("Resetting state")
     setState(INITIAL_STATE);
@@ -70,14 +74,15 @@ function App() {
   }
 
   // add dragged element
-  const addElement = ({ position }) => {
-    console.log("Add new element", position);
+  const addElement = ({ position, type }) => {
+    console.log("Add new element of type", type);
     setState({
       ...state,
       elements: [...state.elements, {
         id: state.elements.length,
         position: position,
-        isNew: false
+        isNew: false,
+        type: type
       }]
     })
   }
@@ -90,7 +95,21 @@ function App() {
       <>
         {
           state.elements.map((element, index) => {
-            return <Elements.Button position={element.position} id={element.id} key={element.id} isNew={false} />
+            
+            if (element.type === ElementTypes.BUTTON) {
+              return <Elements.Button position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />;
+            }
+            else if (element.type === ElementTypes.TEXT) {
+              return <Elements.Text position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />
+            } 
+            else if (element.type === ElementTypes.INPUT) {
+              return <Elements.Input position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />
+            } 
+            else {
+              throwError("Invalid element dropped");
+              return null;
+            }
+
           })
         }
       </>

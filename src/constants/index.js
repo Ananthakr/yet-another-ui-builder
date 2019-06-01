@@ -1,3 +1,5 @@
 export const ElementTypes = {
-    BUTTON:'Button'
+    BUTTON:'Button',
+    TEXT:'Text',
+    INPUT:'Input'
 }
