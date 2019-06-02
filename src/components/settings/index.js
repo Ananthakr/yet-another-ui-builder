@@ -1,15 +1,15 @@
 import React from 'react';
 import './settings.css';
 
-function Settings({ autoSave, toggleAutoSave, snapToGrid, toggleSnapToGrid, saveState, resetState }) {
+function Settings({ autoSave, toggleAutoSave, snapToGrid, toggleSnapToGrid, saveElements, resetElements }) {
     return (
         <div className="settings-bar">
 
-            <button className="settings-button" onClick={resetState}>
+            <button className="settings-button" onClick={resetElements}>
                 Reset
             </button>
             {
-                !autoSave && <button className="settings-button" onClick={saveState}>
+                !autoSave && <button className="settings-button" onClick={saveElements}>
                     Save
             </button>
             }

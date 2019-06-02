@@ -1,146 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import DragAndDropContext from './dragAndDropContext';
-import './App.css';
-import Board from './components/board';
-import Elements from './components/elements';
-import Settings from './components/settings';
-import Picker from './components/picker';
-import { isTouchScreen } from './utils';
-import { ElementTypes } from './constants';
-import { throwError } from 'rxjs';
+import React, { useState, useEffect } from "react";
+import DragAndDropContext from "./dragAndDropContext";
+import "./App.css";
+import Board from "./components/board";
+import Elements from "./components/elements";
+import Settings from "./components/settings";
+import Picker from "./components/picker";
+import { isTouchScreen } from "./utils";
+import { ElementTypes } from "./constants";
+import { throwError } from "rxjs";
 
 // Setup state
 const INITIAL_STATE = {
-  elements: [],
-  autoSave: false,
-  snapToGrid:false
-}
-export const StateContext = React.createContext(INITIAL_STATE);
-
+  ELEMENTS: [],
+  SETTINGS: { autoSave: false, snapToGrid: false }
+};
+export const ElementsContext = React.createContext(INITIAL_STATE.ELEMENTS);
+export const SettingsContext = React.createContext(INITIAL_STATE.SETTINGS);
 
 const DragAndDropContextProvider = props => {
   if (props.isTouch) {
-    return <DragAndDropContext.Touch>{props.children}</DragAndDropContext.Touch>
+    return (
+      <DragAndDropContext.Touch>{props.children}</DragAndDropContext.Touch>
+    );
   } else {
-    return <DragAndDropContext.HTML5>{props.children}</DragAndDropContext.HTML5>
+    return (
+      <DragAndDropContext.HTML5>{props.children}</DragAndDropContext.HTML5>
+    );
   }
 };
 
-
 function App() {
+  // Create States
+  const [elements, setElements] = useState(
+    localStorage.getItem("elementsState")
+      ? JSON.parse(localStorage.getItem("elementsState"))
+      : INITIAL_STATE.ELEMENTS
+  );
 
-  // Create State
-  const [state, setState] = useState(localStorage.getItem("appState") ? JSON.parse(localStorage.getItem("appState")) : INITIAL_STATE)
+  const [settings, setSettings] = useState(
+    localStorage.getItem("settingsState")
+      ? JSON.parse(localStorage.getItem("settingsState"))
+      : INITIAL_STATE.SETTINGS
+  );
 
   // Save Data on change
   useEffect(() => {
-    if (state.autoSave)
-      saveState();
-  })
+    if (settings.autoSave) {
+      saveElements();
+    }
+  }, [elements, settings.autoSave]);
 
+  useEffect(() => {
+    console.log("Saving settings");
+    localStorage.setItem("settingsState", JSON.stringify(settings));
+  }, [settings]);
 
-  // Settings
-  const resetState = () => {
-    console.log("Resetting state")
-    setState(INITIAL_STATE);
-  }
+  // Settings actions
+  const resetElements = () => {
+    console.log("Resetting board");
+    setElements(INITIAL_STATE.ELEMENTS);
+  };
 
-  const saveState = () => {
-    console.log("Saving state")
-    localStorage.setItem('appState', JSON.stringify(state));
-  }
+  const saveElements = () => {
+    console.log("Saving board");
+    localStorage.setItem("elementsState", JSON.stringify(elements));
+  };
 
   const toggleAutoSave = () => {
     console.log("Toggling auto save");
-    setState({
-      ...state,
-      autoSave: !state.autoSave
-    })
-  }
+    setSettings({
+      ...settings,
+      autoSave: !settings.autoSave
+    });
+  };
 
   const toggleSnapToGrid = () => {
     console.log("Toggling snap to grid");
-    setState({
-      ...state,
-      snapToGrid: !state.snapToGrid
-    })
-  }
-
-
-
-
+    setSettings({
+      ...settings,
+      snapToGrid: !settings.snapToGrid
+    });
+  };
 
   // move dragged element
   const moveElement = ({ position, elementIndex }) => {
     // console.log("move element",state);
-    setState({
-      ...state,
-      elements: state.elements.map((element, index) => {
-        return index === elementIndex ? { ...element, position } : element
+    setElements(
+      elements.map((element, index) => {
+        return index === elementIndex ? { ...element, position } : element;
       })
-    }
-    )
-  }
+    );
+  };
 
   // add dragged element
   const addElement = ({ position, type }) => {
     console.log("Add new element of type", type);
-    setState({
-      ...state,
-      elements: [...state.elements, {
-        id: state.elements.length,
+    setElements([
+      ...elements,
+      {
+        id: elements.length,
         position: position,
         isNew: false,
         type: type
-      }]
-    })
-  }
-
-  
-
+      }
+    ]);
+  };
 
   // Render elements from State
   const renderElements = () => {
-
     return (
       <>
-        {
-          state.elements.map((element, index) => {
-            
-            if (element.type === ElementTypes.BUTTON) {
-              return <Elements.Button position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />;
-            }
-            else if (element.type === ElementTypes.TEXT) {
-              return <Elements.Text position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />
-            } 
-            else if (element.type === ElementTypes.INPUT) {
-              return <Elements.Input position={element.position} id={element.id} key={element.id} isNew={element.isNew} type={element.type} />
-            } 
-            else {
-              throwError("Invalid element dropped");
-              return null;
-            }
-
-          })
-        }
+        {elements.map((element, index) => {
+          if (element.type === ElementTypes.BUTTON) {
+            return (
+              <Elements.Button
+                position={element.position}
+                id={element.id}
+                key={element.id}
+                isNew={element.isNew}
+                type={element.type}
+              />
+            );
+          } else if (element.type === ElementTypes.TEXT) {
+            return (
+              <Elements.Text
+                position={element.position}
+                id={element.id}
+                key={element.id}
+                isNew={element.isNew}
+                type={element.type}
+              />
+            );
+          } else if (element.type === ElementTypes.INPUT) {
+            return (
+              <Elements.Input
+                position={element.position}
+                id={element.id}
+                key={element.id}
+                isNew={element.isNew}
+                type={element.type}
+              />
+            );
+          } else {
+            throwError("Invalid element dropped");
+            return null;
+          }
+        })}
       </>
-    )
-
-  }
+    );
+  };
 
   return (
     <div className="app">
-      <Settings resetState={resetState} saveState={saveState} autoSave={state.autoSave} toggleAutoSave={toggleAutoSave} snapToGrid={state.snapToGrid} toggleSnapToGrid={toggleSnapToGrid} />
+      <Settings
+        resetElements={resetElements}
+        saveElements={saveElements}
+        autoSave={settings.autoSave}
+        toggleAutoSave={toggleAutoSave}
+        snapToGrid={settings.snapToGrid}
+        toggleSnapToGrid={toggleSnapToGrid}
+      />
       <div className="container">
-        <StateContext.Provider value={{ ...state }}>
-          <DragAndDropContextProvider isTouch={isTouchScreen()}>
-            <Picker />
-            <Board addElement={addElement} moveElement={moveElement} >
-              {renderElements()}
-            </Board>
-
-          </DragAndDropContextProvider>
-        </StateContext.Provider>
+        <ElementsContext.Provider value={{ ...elements }}>
+          <SettingsContext.Provider value={{ ...settings }}>
+            <DragAndDropContextProvider isTouch={isTouchScreen()}>
+              <Picker />
+              <Board addElement={addElement} moveElement={moveElement}>
+                {renderElements()}
+              </Board>
+            </DragAndDropContextProvider>
+          </SettingsContext.Provider>
+        </ElementsContext.Provider>
       </div>
     </div>
   );
